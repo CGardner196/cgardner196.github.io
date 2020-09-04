@@ -1,0 +1,65 @@
+
+<h1>{{ title }}</h1>
+
+
+<form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit(form.value)">
+    <div class="form-group row">
+        <label for="name" class="col-sm-2 col-form-label">Nom</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="name" formControlName="name">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="login" class="col-sm-2 col-form-label">Login</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="login" formControlName="login">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="pwd" class="col-sm-2 col-form-label">Mot de passe</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="pwd" formControlName="pwd">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="profiles" class="col-sm-2 col-form-label">Profils</label>
+        <div class="col-sm-10">
+            <ng-select *ngIf="refreshIfUp; else elseTemplate"
+                bindLabel="selectedProfiles"
+                [compareWith]="compareWith"
+                formControlName="profiles"
+                placeholder="Select profile(s)"
+                [multiple]="true">
+                <ng-option *ngFor="let profile of dropdownList" [value]="profile">
+                        {{ profile.name }}
+                </ng-option>
+            </ng-select>
+            <ng-template #elseTemplate>
+                <ng-select
+                    bindLabel="selectedProfiles"
+                    formControlName="profiles"
+                    placeholder="Select profile(s)"
+                    [multiple]="true">
+                    <ng-option *ngFor="let profile of dropdownList" [value]="profile">
+                            {{ profile.name }}
+                    </ng-option>
+                </ng-select>
+            </ng-template>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="file" class="col-sm-2 col-form-label">File</label>
+        <div class="col-sm-10">
+            <input type="file" accept="image/*" class="form-control" name="file" id="file" formControlName="file" 
+            (change)="onFileChange($event)">
+        </div>
+    </div>
+    <div>
+        <img [src]="imageSrc" *ngIf="imageSrc" style="height: 125px; width: 200px;" [alt]="form.value.name">
+    </div>
+    <button class="btn btn-primary" type="submit">
+        Submit
+    </button>
+</form>
